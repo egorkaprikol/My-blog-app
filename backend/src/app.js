@@ -10,8 +10,6 @@ app.use(express.json());
 app.use("/article", articleRouter);
 app.use("/comment", commentRouter);
 
-sequelize.sync({ force: false }).then(() => {
-  app.listen(PORT, () => {
-    console.log(`Сервер запущен на порту ${PORT}`);
-  });
+app.listen(PORT, () => {
+  console.log(`Сервер запущен на порту ${PORT}`);
 });
