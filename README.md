@@ -54,6 +54,11 @@ Once the build process is completed, your application will be ready for deployme
 
 
 
+## API Documentation
+
+API документация доступна по [этой ссылке](https://documenter.getpostman.com/view/36739263/2sAXqy1e3E).
+
+
 
 #  backend
 
