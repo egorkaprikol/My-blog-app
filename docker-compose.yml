@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=7000
+      - DB_NAME=blogdb
+      - DB_USER=user
+      - DB_PASSWORD=password
+    depends_on:
+      - db
+    volumes:
+      - .:/usr/src/app/backend
+    command: sh -c "npx sequelize-cli db:migrate && npm start"
+
+  db:
+    image: postgres:last
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: blogdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "7000:5432"
+
+volumes:
+  pgdata:
