@@ -101,7 +101,20 @@ Step 2: Go to the project directory
 cd myblogapp
 ```
 
-Step 3: Run the Docker container locally:
+Step 3: Build the Docker container:
+
+```bash
+docker build -t myblogapp . -f Dockerfile
+```
+
+Step 4: Run the Docker container:
+
+```bash
+docker run -d -p 3000:3000 myblogapp 
+```
+
+
+Step 5: Run the Docker container with database:
 
 ```bash
 docker-compose up --build
