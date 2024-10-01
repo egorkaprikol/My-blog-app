@@ -1,17 +1,8 @@
-/**
- * plugins/index.js
- *
- * Automatically included in `./src/main.js`
- */
-
-// Plugins
 import vuetify from './vuetify'
-import pinia from '@/stores'
-import router from '@/router'
+import article from '@/stores/article'
 
-export function registerPlugins (app) {
+export function registerPlugins(app) {
   app
+    .use(article)
     .use(vuetify)
-    .use(router)
-    .use(pinia)
 }

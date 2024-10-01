@@ -13,6 +13,6 @@ RUN npm install
 COPY . .
 
 # Указываем порт, который будет слушать наше приложение
-EXPOSE 3000
+EXPOSE 3001
 
 CMD ["npm", "start"]
