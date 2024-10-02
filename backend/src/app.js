@@ -16,7 +16,7 @@ var corsOptions = {
 app.use(cors(corsOptions))
 app.use(express.json());
 app.use("/article", articleRouter);
-app.use("/comment", commentRouter);
+app.use("/article", commentRouter);
 app.use("/analytic", analyticRouter);
 
 app.listen(PORT, () => {
