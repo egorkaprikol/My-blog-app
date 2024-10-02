@@ -1,49 +1,44 @@
 <template>
-    <main>
-        <nav>
-            <router-link to="/">На главную</router-link>
-        </nav>
-        <router-view />
-        <v-data-table :headers="headers" :items="articles" :items-per-page="5" class="elevation-1">
-            <template v-slot:item.actions="{ item }">
-                <v-icon @click="editArticle(item.id)">mdi-pencil</v-icon>
-                <v-icon @click="deleteArticle(item.id)">mdi-delete</v-icon>
-            </template>
-        </v-data-table>
-    </main>
+  <v-list lines="one">
+    <div v-if="articles.length">
+      <v-list-item v-for="article in articles" :key="article.id">
+        <v-card>
+          <v-card-title>
+            <router-link :to="{ name: 'ArticleView', params: { id: article.id } }">
+              {{ article.title }}
+            </router-link>
+          </v-card-title>
+          <v-card-text>{{ article.content }}</v-card-text>
+        </v-card>
+      </v-list-item>
+    </div>
+    <div v-else>
+      <p>Статьи не найдены</p>
+    </div>
+  </v-list>
 </template>
 
 <script>
 import axios from 'axios';
 
 export default {
-    computed: {
-        articles() {
-            return this.$store.getters.articles;
-        }
+  data() {
+    return {
+      articles: [],
+    };
+  },
+  methods: {
+    async fetchArticles() {
+      try {
+        const response = await axios.get('http://localhost:3001/article');
+        this.articles = response.data;
+      } catch (error) {
+        console.error('Ошибка при загрузке статей:', error);
+      }
     },
-    data() {
-        return {
-            headers: [
-                { text: 'Название', value: 'title' },
-                { text: 'Дата создания', value: 'createdAt' },
-                { text: 'Действия', value: 'actions', sortable: false }
-            ]
-        };
-    },
-    mounted() {
-        this.articles = axios
-            .get('http://localhost:3001/article')
-            .then(response => this.articles = response.data)
-
-    },
-    methods: {
-        editArticle(articleId) {
-            this.$router.push(`/article/${articleId}/edit`);
-        },
-        deleteArticle(articleId) {
-            this.$store.dispatch('deleteArticle', articleId);
-        }
-    }
+  },
+  created() {
+    this.fetchArticles();
+  },
 };
 </script>

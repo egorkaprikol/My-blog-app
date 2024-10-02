@@ -47,14 +47,8 @@ export default {
 
   },
   mounted() {
-    // if (this.articleId) {
-    //   this.$store.dispatch('fetchArticle', this.articleId).then(article => {
-    //     this.article = article;
-    //   });
-    // }
-    // this.count = this.$store.state.count
     this.article = axios
-      .get('http://localhost:3001/article/1')
+      .get('http://localhost:3001/article/:id')
       .then(response => this.article = response.data)
 
   },
@@ -67,7 +61,7 @@ export default {
         } else {
           this.$store.dispatch('createArticle', this.article);
         }
-        this.$router.push('/articles');
+        this.$router.push('/article');
       }
     }
   }
