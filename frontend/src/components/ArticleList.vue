@@ -1,6 +1,6 @@
 <template>
   <v-list lines="one">
-    <div v-if="articles.length">
+    <div v-if="articles && articles.length">
       <v-list-item v-for="article in articles" :key="article.id">
         <v-card>
           <v-card-title>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { fetchArticles } from '@/Api/Articles';
 
 export default {
   data() {
@@ -28,17 +28,17 @@ export default {
     };
   },
   methods: {
-    async fetchArticles() {
+    async loadArticles() {
       try {
-        const response = await axios.get('http://localhost:3001/article');
-        this.articles = response.data;
+        const articlesData = await fetchArticles(); 
+        this.articles = articlesData;
       } catch (error) {
-        console.error('Ошибка при загрузке статей:', error);
-      }
-    },
+        console.error('Ошибка при загрузке статей:', error); 
+    }
+  }
   },
   created() {
-    this.fetchArticles();
+    this.loadArticles();
   },
 };
 </script>
