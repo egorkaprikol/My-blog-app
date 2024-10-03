@@ -10,9 +10,11 @@
   <v-list lines="one">
     <div v-if="comments && comments.length">
       <v-list-item v-for="comment in comments" :key="comment.id">
-        <v-card>
-          <v-card-text>{{ comment.content }}</v-card-text>
-        </v-card>
+        <router-link :to="{ name: 'CommentView', params: { articleId: articleId, commentId: comment.id } }">
+          <v-card>
+            <v-card-text>{{ comment.content }}</v-card-text>
+          </v-card>
+        </router-link>
       </v-list-item>
     </div>
     <div v-else>

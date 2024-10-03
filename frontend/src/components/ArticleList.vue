@@ -43,8 +43,8 @@ export default {
       }
     },
     createNewArticle() {
-    this.$router.push({ name: 'ArticleCreate' });
-  }
+      this.$router.push({ name: 'ArticleCreate' });
+    }
   },
   created() {
     this.loadArticles();

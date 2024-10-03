@@ -1,4 +1,4 @@
-import axios  from '@/Api/config';
+import axios from '@/Api/config';
 
 export async function fetchComments(articleId) {
     try {
@@ -25,6 +25,26 @@ export async function createComment(articleId, commentData) {
         return response.data;
     } catch (error) {
         console.error('Ошибка при создании комментария:', error);
+        throw error;
+    }
+}
+
+export async function updateComment(articleId, commentId, updatedArticle) {
+    try {
+        const response = await axios.patch(`article/${articleId}/comment/${commentId}`, updatedArticle);
+        return response.data;
+    } catch (error) {
+        console.error('Ошибка при обновлении комментария:', error);
+        throw error;
+    }
+}
+
+export async function deleteCommentById(articleId, commentId) {
+    try {
+        const response = await axios.delete(`article/${articleId}/comment/${commentId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Ошибка при удалении комментария:', error);
         throw error;
     }
 }
