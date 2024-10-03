@@ -69,46 +69,42 @@ export default {
     try {
       this.articleId = this.$route.params.articleId;
       const response = await fetchComments(this.articleId);
-      // Проверьте, что response.data действительно существует и является массивом
       if (Array.isArray(response)) {
-        this.comments = response; // Присваиваем массив комментариев
+        this.comments = response; 
       } else {
         console.error('Некорректный формат данных:', response);
-        this.comments = []; // Устанавливаем пустой массив при ошибке
+        this.comments = []; 
       }
     } catch (error) {
       console.error('Ошибка при загрузке комментариев:', error);
-      this.comments = []; // Устанавливаем пустой массив при ошибке
+      this.comments = []; 
     }
   },
-    // Открыть диалог для редактирования комментария
     editComment(comment) {
-      this.editedComment = { ...comment }; // Копируем данные комментария
-      this.editDialog = true; // Открываем диалог
+      this.editedComment = { ...comment };
+      this.editDialog = true; 
     },
-    // Обновить комментарий на сервере
     async updateComment() {
       try {
         await axios.put(`/article/${this.articleId}/comment/${this.editedComment.id}`, this.editedComment);
         const index = this.comments.findIndex(c => c.id === this.editedComment.id);
         if (index !== -1) {
-          this.comments.splice(index, 1, { ...this.editedComment }); // Обновляем комментарий
+          this.comments.splice(index, 1, { ...this.editedComment }); 
         }
         this.closeEditDialog();
       } catch (error) {
         console.error('Ошибка при обновлении комментария:', error);
       }
     },
-    // Закрыть диалог редактирования
+
     closeEditDialog() {
       this.editDialog = false;
-      this.editedComment = { id: null, content: '' }; // Сбрасываем состояние
+      this.editedComment = { id: null, content: '' };
     },
-    // Удалить комментарий
     async deleteComment(id) {
       try {
         await axios.delete(`/article/${this.articleId}/comment/${id}`);
-        this.comments = this.comments.filter(comment => comment.id !== id); // Удаляем комментарий из списка
+        this.comments = this.comments.filter(comment => comment.id !== id); 
       } catch (error) {
         console.error('Ошибка при удалении комментария:', error);
       }
