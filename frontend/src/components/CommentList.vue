@@ -1,113 +1,52 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="12">
-        <v-list>
-          <v-list-item v-for="comment in comments" :key="comment.id" class="d-flex justify-space-between">
-            <v-card class="w-100">
-              <v-card-title>
-                <div class="d-flex justify-space-between w-100">
-                  <span>{{ comment.author }}</span>
-                  <v-menu offset-y>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn icon v-bind="attrs" v-on="on">
-                        <v-icon>mdi-dots-vertical</v-icon>
-                      </v-btn>
-                    </template>
-                    <v-list>
-                      <v-list-item @click="editComment(comment)">
-                        <v-list-item-title>Редактировать</v-list-item-title>
-                      </v-list-item>
-                      <v-list-item @click="deleteComment(comment.id)">
-                        <v-list-item-title>Удалить</v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                  </v-menu>
-                </div>
-              </v-card-title>
-              <v-card-text>{{ comment.content }}</v-card-text>
-            </v-card>
-          </v-list-item>
-        </v-list>
-
-        <v-alert v-if="comments.length === 0" type="info">Комментариев нет</v-alert>
-      </v-col>
-    </v-row>
-
-    <v-dialog v-model="editDialog" max-width="500px">
-      <v-card>
-        <v-card-title>
-          <span class="headline">Редактировать комментарий</span>
-        </v-card-title>
-        <v-card-text>
-          <v-textarea v-model="editedComment.content" label="Комментарий" rows="4"></v-textarea>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="updateComment">Сохранить</v-btn>
-          <v-btn text @click="closeEditDialog">Отмена</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-container>
+  <div class="centered-container">
+    <nav>
+      <router-link :to="{ name: 'ArticleView', params: { id: articleId } }">
+        Назад к статье
+      </router-link>
+    </nav>
+  </div>
+  <v-btn color="primary" @click="addNewComment">Добавить комментарий</v-btn>
+  <v-list lines="one">
+    <div v-if="comments && comments.length">
+      <v-list-item v-for="comment in comments" :key="comment.id">
+        <v-card>
+          <v-card-text>{{ comment.content }}</v-card-text>
+        </v-card>
+      </v-list-item>
+    </div>
+    <div v-else>
+      <p>Комментарии не найдены</p>
+    </div>
+  </v-list>
 </template>
 
 <script>
 import { fetchComments } from '@/Api/Comments';
 
 export default {
+  props: {
+    articleId: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       comments: [],
-      editDialog: false,
-      editedComment: { id: null, content: '' },
-      articleId: null,
     };
   },
   methods: {
     async loadComments() {
-    try {
-      this.articleId = this.$route.params.articleId;
-      const response = await fetchComments(this.articleId);
-      if (Array.isArray(response)) {
-        this.comments = response; 
-      } else {
-        console.error('Некорректный формат данных:', response);
-        this.comments = []; 
-      }
-    } catch (error) {
-      console.error('Ошибка при загрузке комментариев:', error);
-      this.comments = []; 
-    }
-  },
-    editComment(comment) {
-      this.editedComment = { ...comment };
-      this.editDialog = true; 
-    },
-    async updateComment() {
       try {
-        await axios.put(`/article/${this.articleId}/comment/${this.editedComment.id}`, this.editedComment);
-        const index = this.comments.findIndex(c => c.id === this.editedComment.id);
-        if (index !== -1) {
-          this.comments.splice(index, 1, { ...this.editedComment }); 
-        }
-        this.closeEditDialog();
+        const commentsData = await fetchComments(this.articleId);
+        this.comments = commentsData;
       } catch (error) {
-        console.error('Ошибка при обновлении комментария:', error);
+        console.error('Ошибка при загрузке комментариев:', error);
       }
     },
-
-    closeEditDialog() {
-      this.editDialog = false;
-      this.editedComment = { id: null, content: '' };
-    },
-    async deleteComment(id) {
-      try {
-        await axios.delete(`/article/${this.articleId}/comment/${id}`);
-        this.comments = this.comments.filter(comment => comment.id !== id); 
-      } catch (error) {
-        console.error('Ошибка при удалении комментария:', error);
-      }
+    addNewComment() {
+      this.$router.push({ name: 'CommentCreate', params: { articleId: this.articleId } });
     },
   },
   created() {
