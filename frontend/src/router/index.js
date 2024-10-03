@@ -8,8 +8,9 @@ import CommentList from '@/components/CommentList.vue'
 
 const routes = [
   { path: '/', component: HomePage },
-  { path: '/article', component: ArticleList },
-  { path: '/article/:id/new', component: ArticleForm },
+  { path: '/article', name: 'ArticleList', component: ArticleList },
+  { path: '/article/:id/edit', name: 'ArticleEdit', component: ArticleForm, props: true },
+  { path: '/article/create', name: 'ArticleCreate', component: ArticleForm },
   { path: '/article/:id', name: 'ArticleView', component: ArticleView, props: true },
   { path: '/article/:articleId/comment', name: 'CommentList', component: CommentList }
 ]

@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { createArticle, updateArticle } from '@/Api/Articles';
 
 export default {
   props: {
-    articleId: {
+    id: {
       type: Number,
       default: null
     },
@@ -44,25 +44,35 @@ export default {
         content: ''
       },
     };
-
-  },
-  mounted() {
-    this.article = axios
-      .get('http://localhost:3001/article/:id')
-      .then(response => this.article = response.data)
-
   },
   methods: {
-    submitForm() {
+    async loadArticle() {
+      try {
+        const articleData = await fetchArticle(this.id);
+        this.article = articleData;
+      } catch (error) {
+        console.error('Ошибка при загрузке статьи:', error);
+      }
+    },
+    async submitForm() {
       this.$refs.form.validate();
       if (this.valid) {
-        if (this.articleId) {
-          this.$store.dispatch('updateArticle', this.article);
-        } else {
-          this.$store.dispatch('createArticle', this.article);
+        try {
+          if (this.id) {
+            await updateArticle(this.id, this.article);
+            alert('Статья успешно обновлена');
+          } else {
+            await createArticle(this.article);
+            alert('Статья успешно создана!');
+          }
+          this.$router.push('/article');
+        } catch (error) {
+          console.error('Ошибка при сохранении статьи:', error);
         }
-        this.$router.push('/article');
       }
+    },
+    created() {
+      this.loadArticle();
     }
   }
 };

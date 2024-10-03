@@ -11,6 +11,8 @@
           <v-card-title>{{ article.title }}</v-card-title>
           <v-card-text>{{ article.content }}</v-card-text>
           <v-btn @click="viewComments">Комментарии</v-btn>
+          <v-btn color="primary" @click="editArticle">Редактировать</v-btn>
+          <v-btn color="error" @click="deleteArticle">Удалить</v-btn>
         </v-card>
       </v-col>
     </v-row>
@@ -18,7 +20,7 @@
 </template>
 
 <script>
-import { fetchArticle } from '@/Api/Articles';
+import { fetchArticle, deleteArticleById } from '@/Api/Articles';
 
 export default {
   props: ['id'],
@@ -32,14 +34,27 @@ export default {
       try {
         const articleData = await fetchArticle(this.id);
         this.article = articleData;
-      }
-      catch (error) {
+      } catch (error) {
         console.error('Ошибка при загрузке статьи:', error);
       }
     },
     viewComments() {
       this.$router.push({ name: 'CommentList', params: { articleId: this.id } });
-    }
+    },
+    editArticle() {
+      this.$router.push({ name: 'ArticleEdit', params: { id: this.id } });
+    },
+    async deleteArticle() {
+      if (confirm('Вы уверены, что хотите удалить эту статью?')) {
+        try {
+          await deleteArticleById(this.id);
+          alert('Статья успешно удалена!');
+          this.$router.push({ name: 'ArticleList' });
+        } catch (error) {
+          console.error('Ошибка при удалении статьи:', error);
+        }
+      }
+    },
   },
   created() {
     this.loadArticle();

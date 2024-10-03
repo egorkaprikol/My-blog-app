@@ -4,6 +4,7 @@
       <router-link to="/">На главную</router-link>
     </nav>
   </div>
+  <v-btn color="primary" @click="createNewArticle">Создать новую статью</v-btn>
   <v-list lines="one">
     <div v-if="articles && articles.length">
       <v-list-item v-for="article in articles" :key="article.id">
@@ -40,7 +41,10 @@ export default {
       } catch (error) {
         console.error('Ошибка при загрузке статей:', error);
       }
-    }
+    },
+    createNewArticle() {
+    this.$router.push({ name: 'ArticleCreate' });
+  }
   },
   created() {
     this.loadArticles();
