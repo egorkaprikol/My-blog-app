@@ -1,19 +1,20 @@
-const express = require('express');
+const express = require("express");
+const cors = require("cors");
+
 const app = express();
-const sequelize = require('./config/config.json');
-const articleRouter = require("./controllers/articles.js")
-const commentRouter = require("./controllers/comments.js")
-const analyticRouter = require("./controllers/analytics.js")
-const cors = require('cors');
+const articleRouter = require("./controllers/articles.js");
+const commentRouter = require("./controllers/comments.js");
+const analyticRouter = require("./controllers/analytics.js");
+
 const PORT = process.env.PORT || 3001;
-const MODE = process.env.NODE_ENV || 'development';
+const MODE = process.env.NODE_ENV || "development";
 
-var corsOptions = {
-  origin: 'http://localhost:3000'
-}
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:8080"],
+  })
+);
 
-
-app.use(cors(corsOptions))
 app.use(express.json());
 app.use("/article", articleRouter);
 app.use("/article", commentRouter);
