@@ -1,10 +1,5 @@
 <template>
   <div class="centered-container">
-    <nav>
-      <router-link :to="{ name: 'ArticleView', params: { id: articleId } }">
-        Назад к статье
-      </router-link>
-    </nav>
     <v-container>
       <v-row>
         <v-col cols="12" md="6">
@@ -18,7 +13,7 @@
     <v-list lines="one">
       <div v-if="comments && comments.length">
         <v-list-item v-for="comment in comments" :key="comment.id">
-          <router-link :to="{ name: 'CommentView', params: { articleId: articleId, commentId: comment.id } }">
+          <router-link :to="{ name: 'CommentView', params: { articleId: comment.ArticleId, commentId: comment.id } }">
             <v-card>
               <v-card-text>{{ comment.content }}</v-card-text>
             </v-card>
@@ -36,12 +31,6 @@
 import { fetchCommentsByDate } from '@/Api/Analytic';
 
 export default {
-  props: {
-    articleId: {
-      type: Number,
-      required: true,
-    },
-  },
   data() {
     return {
       comments: [],
@@ -52,7 +41,7 @@ export default {
   methods: {
     async loadComments() {
       try {
-        const commentsData = await fetchCommentsByDate(this.articleId, this.dateFrom, this.dateTo);
+        const commentsData = await fetchCommentsByDate(this.dateFrom, this.dateTo);
         this.comments = commentsData;
       } catch (error) {
         console.error('Ошибка при загрузке комментариев:', error);
@@ -60,9 +49,7 @@ export default {
     },
   },
   created() {
-    if (this.articleId) {
       this.loadComments();
     }
-  },
 };
 </script>

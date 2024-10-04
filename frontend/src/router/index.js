@@ -19,7 +19,7 @@ const routes = [
   { path: '/article/:articleId/comment/create', name: 'CommentCreate', component: CommentForm, props: true },
   { path: '/article/:articleId/comment/:commentId/edit', name: 'CommentEdit', component: CommentForm, props: true },
   { path: '/article/:articleId/comment/:commentId', name: 'CommentView', component: CommentView, props: true },
-  { path: '/article/:articleId/comments/analytic', name: 'AnalyticCommentList', component: AnalyticCommentList, props: true }
+  { path: '/analytic/comments', name: 'AnalyticCommentList', component: AnalyticCommentList, props: true }
 ]
 
 const BaseRouter = createRouter({
