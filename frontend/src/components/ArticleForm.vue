@@ -5,9 +5,8 @@
         {{ title }}
       </v-card-title>
       <v-card-text>
-        <v-text-field v-model="article.title" :rules="[rules.required, rules.max]" label="Название статьи"
-          required></v-text-field>
-        <v-textarea v-model="article.content" :rules="[rules.required]" label="Текст статьи" required></v-textarea>
+        <v-text-field v-model="article.title" :rules="[rules.required, rules.max]" required></v-text-field>
+        <v-textarea v-model="article.content" :rules="[rules.required]" required></v-textarea>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" :disabled="!valid" @click="submitForm">
@@ -26,10 +25,6 @@ export default {
     id: {
       type: Number,
       default: null
-    },
-    title: {
-      type: String,
-      default: 'Новая статья'
     }
   },
   data() {
@@ -43,15 +38,19 @@ export default {
         title: '',
         content: ''
       },
+      title: 'Новая статья'
     };
   },
   methods: {
     async loadArticle() {
-      try {
-        const articleData = await fetchArticle(this.id);
-        this.article = articleData;
-      } catch (error) {
-        console.error('Ошибка при загрузке статьи:', error);
+      if (this.id) {
+        try {
+          this.title = 'Редактирование статьи';
+          const articleData = await fetchArticle(this.id);
+          this.article = articleData;
+        } catch (error) {
+          console.error('Ошибка при загрузке статьи:', error);
+        }
       }
     },
     async submitForm() {
@@ -71,9 +70,9 @@ export default {
         }
       }
     },
-    created() {
-      this.loadArticle();
-    }
+  },
+  created() {
+    this.loadArticle();
   }
 };
 </script>

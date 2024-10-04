@@ -1,8 +1,10 @@
 <template>
     <v-form v-model="valid" ref="form" lazy-validation>
         <v-card>
-            <v-textarea v-model="comment.content" :rules="[rules.required, rules.max]" label="Текст комментария"
-                required></v-textarea>
+            <v-card-title>
+                {{ title }}
+            </v-card-title>
+            <v-textarea v-model="comment.content" :rules="[rules.required, rules.max]" required></v-textarea>
             <v-card-actions>
                 <v-btn color="primary" :disabled="!valid" @click="submitForm">
                     Сохранить
@@ -24,10 +26,6 @@ export default {
         commentId: {
             type: Number,
             default: null
-        },
-        title: {
-            type: String,
-            default: 'Новый комментарий'
         }
     },
     data() {
@@ -39,19 +37,17 @@ export default {
             },
             comment: {
                 content: ''
-            }
+            },
+            title: 'Новый комментарий'
         };
     },
     methods: {
         async loadComment() {
             if (this.commentId) {
                 try {
-                    const commentData = await fetchComment(this.commentId);
-                    if (commentData && commentData.content !== undefined) {
-                        this.comment.content = commentData.content;
-                    } else {
-                        console.error('Неверный формат данных комментария:', commentData);
-                    }
+                    this.title = 'Редактирование комментария'
+                    const commentData = await fetchComment(this.articleId, this.commentId);
+                    this.comment = commentData;
                 } catch (error) {
                     console.error('Ошибка при загрузке комментария:', error);
                 }
