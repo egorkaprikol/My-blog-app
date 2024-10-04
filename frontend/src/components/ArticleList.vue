@@ -3,7 +3,7 @@
   <v-list lines="one">
     <div v-if="articles && articles.length">
       <v-list-item v-for="article in articles" :key="article.id">
-        <v-card>
+        <v-card class="border">
           <v-card-title>
             <router-link :to="{ name: 'ArticleView', params: { id: article.id } }">
               {{ article.title }}
