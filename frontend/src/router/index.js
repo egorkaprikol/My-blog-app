@@ -7,6 +7,7 @@ import ArticleView from '@/components/ArticleView.vue'
 import CommentList from '@/components/CommentList.vue'
 import CommentForm from '@/components/CommentForm.vue'
 import CommentView from '@/components/CommentView.vue'
+import AnalyticCommentList from '@/components/AnalyticCommentList.vue'
 
 const routes = [
   { path: '/', component: HomePage },
@@ -17,7 +18,8 @@ const routes = [
   { path: '/article/:articleId/comment', name: 'CommentList', component: CommentList, props: true },
   { path: '/article/:articleId/comment/create', name: 'CommentCreate', component: CommentForm, props: true },
   { path: '/article/:articleId/comment/:commentId/edit', name: 'CommentEdit', component: CommentForm, props: true },
-  { path: '/article/:articleId/comment/:commentId', name: 'CommentView', component: CommentView, props: true }
+  { path: '/article/:articleId/comment/:commentId', name: 'CommentView', component: CommentView, props: true },
+  { path: '/article/:articleId/comments/analytic', name: 'AnalyticCommentList', component: AnalyticCommentList, props: true }
 ]
 
 const BaseRouter = createRouter({

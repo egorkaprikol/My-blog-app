@@ -47,6 +47,7 @@ export default {
     async deleteArticle() {
       if (confirm('Вы уверены, что хотите удалить эту статью?')) {
         try {
+          fetchArticle(this.id);
           await deleteArticleById(this.id);
           alert('Статья успешно удалена!');
           this.$router.push({ name: 'ArticleList' });
