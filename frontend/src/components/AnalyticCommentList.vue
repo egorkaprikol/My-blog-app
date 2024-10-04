@@ -2,28 +2,19 @@
   <div class="centered-container">
     <v-container>
       <v-row>
-        <v-col cols="12" md="6">
+        <v-col>
           <v-text-field v-model="dateFrom" label="Дата с" type="date" @change="loadComments"></v-text-field>
         </v-col>
-        <v-col cols="12" md="6">
+        <v-col>
           <v-text-field v-model="dateTo" label="Дата по" type="date" @change="loadComments"></v-text-field>
+        </v-col>
+        <v-col>
+          <v-btn @click.prevent="resetFilters">Reset</v-btn>
         </v-col>
       </v-row>
     </v-container>
-    <v-list lines="one">
-      <div v-if="comments && comments.length">
-        <v-list-item v-for="comment in comments" :key="comment.id">
-          <router-link :to="{ name: 'CommentView', params: { articleId: comment.ArticleId, commentId: comment.id } }">
-            <v-card>
-              <v-card-text>{{ comment.content }}</v-card-text>
-            </v-card>
-          </router-link>
-        </v-list-item>
-      </div>
-      <div v-else>
-        <p>Комментарии не найдены</p>
-      </div>
-    </v-list>
+    <v-data-table :items="comments" :headers="headers" :items-per-page="15">
+    </v-data-table>
   </div>
 </template>
 
@@ -35,10 +26,23 @@ export default {
     return {
       comments: [],
       dateFrom: '',
-      dateTo: ''
+      dateTo: '',
+      headers: [
+        { key: 'id', title: 'ID' },
+        { key: 'ArticleId', title: 'Article ID' },
+        { key: 'content', title: 'Content' },
+        { key: 'updatedAt', title: 'Updated At' },
+        { key: 'createdAt', title: 'Created At' },
+      ],
     };
   },
   methods: {
+    resetFilters() {
+      this.dateFrom = '';
+      this.dateTo = '';
+      this.loadComments();
+    },
+
     async loadComments() {
       try {
         const commentsData = await fetchCommentsByDate(this.dateFrom, this.dateTo);
@@ -49,7 +53,7 @@ export default {
     },
   },
   created() {
-      this.loadComments();
-    }
+    this.loadComments();
+  }
 };
 </script>
