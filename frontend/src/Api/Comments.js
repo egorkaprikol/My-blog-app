@@ -1,4 +1,4 @@
-import axios from '@/Api/config';
+import axios from '@/api/config';
 
 export async function fetchComments(articleId) {
     try {

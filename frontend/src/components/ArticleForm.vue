@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { createArticle, updateArticle, fetchArticle } from '@/Api/Articles';
+import { createArticle, updateArticle, fetchArticle } from '@/api/articles';
 
 export default {
   props: {

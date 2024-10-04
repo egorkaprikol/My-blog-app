@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { createComment, fetchComment, updateComment } from '@/Api/Comments';
+import { createComment, fetchComment, updateComment } from '@/api/comments';
 
 export default {
     props: {

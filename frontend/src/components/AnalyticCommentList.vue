@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { fetchCommentsByDate } from '@/Api/Analytic';
+import { fetchCommentsByDate } from '@/api/analytic';
 
 export default {
   data() {

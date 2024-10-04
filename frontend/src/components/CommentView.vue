@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { fetchComment, deleteCommentById } from '@/Api/Comments';
+import { fetchComment, deleteCommentById } from '@/api/comments';
 
 export default {
     props: ['articleId', 'commentId'],

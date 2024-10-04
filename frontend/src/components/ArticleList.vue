@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { fetchArticles } from '@/Api/Articles';
+import { fetchArticles } from '@/api/articles';
 
 export default {
   data() {

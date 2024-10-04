@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { fetchArticle, deleteArticleById } from '@/Api/Articles';
+import { fetchArticle, deleteArticleById } from '@/api/articles';
 
 export default {
   props: ['id'],

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { fetchComments } from '@/Api/Comments';
+import { fetchComments } from '@/api/comments';
 
 export default {
   props: {
