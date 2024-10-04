@@ -7,7 +7,6 @@
     </nav>
   </div>
   <v-btn color="primary" @click="addNewComment">Добавить комментарий</v-btn>
-  <v-btn color="secondary" @click="ComeToAnalyticCommentList">Фильтрация</v-btn>
   <v-list lines="one">
     <div v-if="comments && comments.length">
       <v-list-item v-for="comment in comments" :key="comment.id">

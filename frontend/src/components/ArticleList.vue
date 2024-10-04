@@ -1,9 +1,4 @@
 <template>
-  <div class="centered-container">
-    <nav>
-      <router-link to="/">На главную</router-link>
-    </nav>
-  </div>
   <v-btn color="primary" @click="createNewArticle">Создать новую статью</v-btn>
   <v-list lines="one">
     <div v-if="articles && articles.length">

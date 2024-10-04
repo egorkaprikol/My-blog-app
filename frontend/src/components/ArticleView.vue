@@ -1,9 +1,4 @@
 <template>
-  <div class="centered-container">
-    <nav>
-      <router-link to="/article">Список статей</router-link>
-    </nav>
-  </div>
   <v-container>
     <v-row>
       <v-col cols="12">
@@ -47,7 +42,6 @@ export default {
     async deleteArticle() {
       if (confirm('Вы уверены, что хотите удалить эту статью?')) {
         try {
-          fetchArticle(this.id);
           await deleteArticleById(this.id);
           alert('Статья успешно удалена!');
           this.$router.push({ name: 'ArticleList' });
