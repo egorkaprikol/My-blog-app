@@ -1,6 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/db_connection.js');
-const Article = require('./articles.js');
 
 class Comment extends Model {}
 
@@ -28,6 +27,5 @@ Comment.init({
   sequelize,
   modelName: 'Comment'
 });
-Article.hasMany(Comment, { onDelete: "cascade" });
 
 module.exports = Comment;
