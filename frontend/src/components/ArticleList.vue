@@ -20,29 +20,22 @@
 </template>
 
 <script>
-import { fetchArticles } from '@/api/articles';
+import { mapState, mapActions } from 'vuex';
 
 export default {
-  data() {
-    return {
-      articles: [],
-    };
+  computed: {
+    ...mapState({
+      articles: (state) => state.articles
+    }),
   },
   methods: {
-    async loadArticles() {
-      try {
-        const articlesData = await fetchArticles();
-        this.articles = articlesData;
-      } catch (error) {
-        console.error('Ошибка при загрузке статей:', error);
-      }
-    },
+    ...mapActions(['fetchArticles']),
     createNewArticle() {
       this.$router.push({ name: 'ArticleCreate' });
     }
   },
   created() {
-    this.loadArticles();
+    this.fetchArticles();
   },
 };
 </script>
